@@ -106,9 +106,9 @@ const App = () => {
             {/* Living Room - Show when 'all' or 'living_room' selected */}
             {(selectedRoom === 'all' || selectedRoom === 'living_room') && (
               <>
+                <LockCard name="Front Door Lock" room="Living Room" />
                 <LightCard name="Living Room Light" room="Living Room" />
                 <ThermostatCard name="Smart Thermostat" room="Living Room" />
-                <LockCard name="Front Door Lock" room="Living Room" />
               </>
             )}
 
