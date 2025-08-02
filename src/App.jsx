@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { FiHome, FiBell, FiPlus, FiThermometer, FiLock, FiSun } from 'react-icons/fi';
+import { DeviceProvider, useDevices } from './contexts/DeviceContext';
 import LightCard from './components/LightCard';
 import ThermostatCard from './components/ThermostatCard';
 import LockCard from './components/LockCard';
 import './App.css';
 
-const App = () => {
+// Dashboard component that uses the context
+const Dashboard = () => {
   const [selectedRoom, setSelectedRoom] = useState('all');
+  const { getDevicesByRoom, getStats } = useDevices();
+
+  const filteredDevices = getDevicesByRoom(selectedRoom);
+  const stats = getStats();
 
   return (
     <div className="container">
@@ -43,7 +49,7 @@ const App = () => {
             </div>
             <div className="card-content">
               <h3>Lighting</h3>
-              <p>6/8 Active</p>
+              <p>{stats.lighting}</p>
             </div>
           </div>
           <div className="card">
@@ -52,7 +58,7 @@ const App = () => {
             </div>
             <div className="card-content">
               <h3>Home Temperature</h3>
-              <p>22°C Average</p>
+              <p>{stats.temperature}</p>
             </div>
           </div>
           <div className="card">
@@ -61,7 +67,7 @@ const App = () => {
             </div>
             <div className="card-content">
               <h3>Door Locks</h3>
-              <p>All Locked</p>
+              <p>{stats.security}</p>
             </div>
           </div>
         </section>
@@ -102,45 +108,29 @@ const App = () => {
         <section className="devices">
           <h2>Devices</h2>
           <div className="device-cards">
-            
-            {/* Living Room - Show when 'all' or 'living_room' selected */}
-            {(selectedRoom === 'all' || selectedRoom === 'living_room') && (
-              <>
-                <LockCard name="Front Door Lock" room="Living Room" />
-                <LightCard name="Living Room Light" room="Living Room" />
-                <ThermostatCard name="Smart Thermostat" room="Living Room" />
-              </>
-            )}
-
-            {/* Kitchen - Show when 'all' or 'kitchen' selected */}
-            {(selectedRoom === 'all' || selectedRoom === 'kitchen') && (
-              <>
-                <LightCard name="Kitchen Ceiling Light" room="Kitchen" />
-                <LightCard name="Under-Cabinet Lights" room="Kitchen" />
-              </>
-            )}
-
-            {/* Bedroom - Show when 'all' or 'bedroom' selected */}
-            {(selectedRoom === 'all' || selectedRoom === 'bedroom') && (
-              <>
-                <LightCard name="Bedroom Main Light" room="Bedroom" />
-                <LightCard name="Bedside Lamp" room="Bedroom" />
-                <ThermostatCard name="Bedroom Thermostat" room="Bedroom" />
-              </>
-            )}
-
-            {/* Bathroom - Show when 'all' or 'bathroom' selected */}
-            {(selectedRoom === 'all' || selectedRoom === 'bathroom') && (
-              <>
-                <LightCard name="Bathroom Vanity Light" room="Bathroom" />
-                <LightCard name="Shower Light" room="Bathroom" />
-              </>
-            )}
-
+            {filteredDevices.map(device => {
+              if (device.type === 'light') {
+                return <LightCard key={device.deviceId} deviceId={device.deviceId} />;
+              } else if (device.type === 'thermostat') {
+                return <ThermostatCard key={device.deviceId} deviceId={device.deviceId} />;
+              } else if (device.type === 'lock') {
+                return <LockCard key={device.deviceId} deviceId={device.deviceId} />;
+              }
+              return null;
+            })}
           </div>
         </section>
       </main>
     </div>
+  );
+};
+
+// App component with provider
+const App = () => {
+  return (
+    <DeviceProvider>
+      <Dashboard />
+    </DeviceProvider>
   );
 };
 

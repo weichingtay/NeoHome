@@ -1,10 +1,14 @@
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
+import { useDevices } from '../contexts/DeviceContext';
 import './Brightness.css';
 
-const Brightness = () => {
-  const [brightness, setBrightness] = useState(65);
+const Brightness = ({ deviceId }) => {
+  const { getDeviceById, updateBrightness } = useDevices();
+  const device = getDeviceById(deviceId);
   const [isDragging, setIsDragging] = useState(false);
   const dialRef = useRef(null);
+
+  const brightness = device?.brightness || 0;
 
   const handleUpdate = useCallback((e) => {
     if (!dialRef.current) return;
@@ -21,8 +25,8 @@ const Brightness = () => {
     angleDeg = Math.max(-180, Math.min(0, angleDeg));
 
     const bright = Math.round(((angleDeg + 180) / 180) * 100);
-    setBrightness(bright);
-  }, []);
+    updateBrightness(deviceId, bright);
+  }, [deviceId, updateBrightness]);
 
   const handleMouseDown = (e) => {
     e.preventDefault();

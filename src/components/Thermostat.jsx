@@ -1,14 +1,17 @@
-// src/components/Thermostat.jsx - Updated with better target/current distinction
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
+import { useDevices } from '../contexts/DeviceContext';
 import './Thermostat.css';
 
-const Thermostat = () => {
-  const [targetTemp, setTargetTemp] = useState(22);
-  const [currentTemp, setCurrentTemp] = useState(21);
+const Thermostat = ({ deviceId }) => {
+  const { getDeviceById, updateTemperature } = useDevices();
+  const device = getDeviceById(deviceId);
   const [isDragging, setIsDragging] = useState(false);
   const dialRef = useRef(null);
   const minTemp = 16;
   const maxTemp = 30;
+
+  const targetTemp = device?.targetTemp || 22;
+  const currentTemp = device?.currentTemp || 21;
 
   const handleUpdate = useCallback((e) => {
     if (!dialRef.current) return;
@@ -27,8 +30,8 @@ const Thermostat = () => {
     const tempRange = maxTemp - minTemp;
     const valuePercentage = (angleDeg + 180) / 180;
     const temp = Math.round(valuePercentage * tempRange) + minTemp;
-    setTargetTemp(temp);
-  }, [minTemp, maxTemp]);
+    updateTemperature(deviceId, temp);
+  }, [deviceId, updateTemperature, minTemp, maxTemp]);
 
   const handleMouseDown = (e) => {
     e.preventDefault();
