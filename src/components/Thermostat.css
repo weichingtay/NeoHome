@@ -1,0 +1,85 @@
+.thermostat-container {
+  position: relative;
+  width: 250px;
+  height: 125px;
+  margin: 20px auto;
+  margin-bottom: 35px;
+}
+
+.thermostat-dial {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 125px 125px 0 0;
+  background: conic-gradient(from 180deg at 50% 100%, #2196F3, #ff5252);
+  cursor: pointer;
+}
+
+.thermostat-background {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 10px);
+  background: var(--card-background);
+  border-radius: 115px 115px 0 0;
+}
+
+.thermostat-indicator {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 125px;
+  height: 1px;
+  transform-origin: left center;
+}
+
+.thermostat-handle {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 5px solid var(--primary-color);
+  border-radius: 50%;
+}
+
+.thermostat-readout {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.temperature-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.temperature-label {
+  font-size: 0.9rem;
+  color: var(--subtle-text-color);
+}
+
+
+.temp-labels {
+  position: absolute;
+  width: 100%;
+  bottom: -5px;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  box-sizing: border-box;
+  font-size: 0.8rem;
+  color: var(--subtle-text-color);
+  pointer-events: a;
+}
