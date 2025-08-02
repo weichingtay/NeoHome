@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FiSun } from 'react-icons/fi';
 import Brightness from './Brightness';
+import './LockCard.css';
 
 const LightCard = ({ name, room }) => {
   const [selectedColor, setSelectedColor] = useState('white');

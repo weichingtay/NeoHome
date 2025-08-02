@@ -1,3 +1,4 @@
+// src/components/Thermostat.jsx - Updated with better target/current distinction
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import './Thermostat.css';
 
@@ -84,11 +85,12 @@ const Thermostat = () => {
         </div>
         <div className="thermostat-readout">
           <span className="temperature-value">{targetTemp}°</span>
-          <span className="temperature-label">Celsius</span>
+          <span className="temperature-label">Target</span>
         </div>
       </div>
       <div className="current-temp-display">
-        Current Temperature: {currentTemp}°C
+        <div className="current-temp-label">Current Temperature</div>
+        <div className="current-temp-value">{currentTemp}°C</div>
       </div>
     </>
   );
