@@ -1,3 +1,16 @@
+.device-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative; /* Use relative positioning instead */
+}
+
+.device-header span:first-of-type {
+  font-weight: 600;
+  margin-left: 1rem;
+  /* Keep this as is, don't change flex-grow */
+}
+
 .lock-display {
   display: flex;
   justify-content: center;
@@ -65,6 +78,10 @@
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
+  position: absolute; /* Position absolutely to the right */
+  right: 0; /* Stick to the right edge */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically */
 }
 
 .lock-status.locked {
