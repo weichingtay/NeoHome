@@ -42,7 +42,7 @@ const App = () => {
               <FiSun />
             </div>
             <div className="card-content">
-              <h3>Lights</h3>
+              <h3>Lighting</h3>
               <p>6/8 Active</p>
             </div>
           </div>
@@ -51,7 +51,7 @@ const App = () => {
               <FiThermometer />
             </div>
             <div className="card-content">
-              <h3>Climate</h3>
+              <h3>Home Temperature</h3>
               <p>22°C Average</p>
             </div>
           </div>
@@ -60,7 +60,7 @@ const App = () => {
               <FiLock />
             </div>
             <div className="card-content">
-              <h3>Security</h3>
+              <h3>Door Locks</h3>
               <p>All Locked</p>
             </div>
           </div>
