@@ -23,9 +23,9 @@ body {
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem 2rem;
 }
 
 header {
@@ -115,9 +115,10 @@ header {
 
 .status-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-bottom: 2rem;
+  width: 100%;
 }
 
 .card {
@@ -163,9 +164,10 @@ header {
 
 .filter-btn {
   flex: 1;
+  min-width: 120px;
   background-color: var(--card-background);
   border: 1px solid var(--border-color);
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1rem;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
@@ -186,8 +188,9 @@ header {
 
 .device-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+  width: 100%;
 }
 
 .device-card {
@@ -298,73 +301,6 @@ input:checked + label:before {
   border-color: var(--primary-color);
 }
 
-.lock-status.locked {
-  color: var(--safe-color);
-  background-color: var(--safe-color-bg);
-}
-
-.lock-status.unlocked {
-  color: var(--danger-color);
-  background-color: var(--danger-color-bg);
-}
-
-.lock-display {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  margin: 20px 0;
-}
-
-.lock-display svg {
-  font-size: 4rem;
-  padding: 2.5rem;
-  border-radius: 50%;
-}
-
-.lock-display.locked svg {
-  color: var(--safe-color);
-  background-color: var(--safe-color-bg);
-}
-
-.lock-display.unlocked svg {
-  color: var(--danger-color);
-  background-color: var(--danger-color-bg);
-}
-
-.unlock-btn {
-  width: 100%;
-  background-color: var(--safe-color);
-  color: white;
-  border: none;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.unlock-btn:hover {
-    background-color: #48c9b0;
-}
-
-.lock-btn {
-  width: 100%;
-  background-color: var(--danger-color);
-  color: white;
-  border: none;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.lock-btn:hover {
-    background-color: #e65252;
-}
 
 .device-footer {
   margin-top: 1.5rem;
