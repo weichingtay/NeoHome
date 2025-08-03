@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field, validator
 from typing import Dict, List, Optional, Any, Literal
 from datetime import datetime, timezone
 from urllib.parse import unquote
+import random
 import asyncio
 import json
 import logging
@@ -62,6 +63,89 @@ class DeviceStats(BaseModel):
     security: str
 
 # ====================
+# TEMPERATURE SIMULATION
+# ====================
+
+class SimpleTemperatureSimulator:
+    """Simple periodic temperature updates for thermostats"""
+    
+    def __init__(self, device_manager):
+        self.device_manager = device_manager
+        self.temperature_data = self._load_temperature_data()
+        self.current_index = 0
+        
+    def _load_temperature_data(self):
+        """Load temperature readings from JSON file"""
+        try:
+            with open("sensor-data.json", 'r') as f:
+                data = json.load(f)
+                readings = data.get("temperatureReadings", [])
+                logger.info(f"📡 Loaded {len(readings)} temperature readings")
+                return readings
+        except FileNotFoundError:
+            logger.warning("⚠️ sensor-data.json not found. Generate it first!")
+            return []
+        except Exception as e:
+            logger.error(f"❌ Error loading temperature data: {e}")
+            return []
+    
+    async def start_temperature_updates(self):
+        """Start periodic temperature updates every minute"""
+        if not self.temperature_data:
+            logger.warning("⚠️ No temperature data available")
+            return
+            
+        logger.info("🌡️ Starting periodic temperature updates (every 60 seconds)")
+        
+        while True:
+            try:
+                await self._update_thermostat_temperatures()
+                await asyncio.sleep(60)  # Update every minute
+            except Exception as e:
+                logger.error(f"❌ Temperature update error: {e}")
+                await asyncio.sleep(10)
+    
+    async def _update_thermostat_temperatures(self):
+        """Update thermostat temperatures from sensor data"""
+        if not self.temperature_data:
+            return
+            
+        # Get readings for this minute (cycle through the data)
+        current_readings = []
+        readings_per_minute = 2  # 2 thermostats
+        
+        start_idx = (self.current_index * readings_per_minute) % len(self.temperature_data)
+        
+        for i in range(readings_per_minute):
+            idx = (start_idx + i) % len(self.temperature_data)
+            current_readings.append(self.temperature_data[idx])
+        
+        self.current_index += 1
+        
+        # Apply temperature updates
+        for reading in current_readings:
+            await self._apply_temperature_reading(reading)
+    
+    async def _apply_temperature_reading(self, reading):
+        """Apply a temperature reading to update thermostat"""
+        device_id = reading["deviceId"]
+        device = self.device_manager.get_device(device_id)
+        
+        if device and hasattr(device, 'current_temp'):
+            old_temp = device.current_temp
+            new_temp = reading["currentTemp"]
+            
+            # Add small random variation to make it feel realistic
+            variation = random.uniform(-0.1, 0.1)
+            device.current_temp = round(new_temp + variation, 1)
+            device.last_updated = "Just now"
+            
+            logger.info(f"🌡️ {reading.get('name', device_id)}: {old_temp}°C → {device.current_temp}°C")
+            
+            # Broadcast via WebSocket
+            await self.device_manager.broadcast_device_update(device_id, device)
+
+# ====================
 # DEVICE MANAGER
 # ====================
 
@@ -71,6 +155,7 @@ class DeviceManager:
     def __init__(self):
         self.devices: Dict[str, Device] = {}
         self.websocket_connections: List[WebSocket] = []
+        self.temp_simulator = None
         self._initialize_demo_devices()
     
     def _initialize_demo_devices(self):
@@ -218,6 +303,13 @@ class DeviceManager:
             security="All Locked" if all_locked else "Some Unlocked"
         )
 
+    def start_temperature_simulation(self):
+        """Start temperature simulation for thermostats"""
+        if not self.temp_simulator:
+            self.temp_simulator = SimpleTemperatureSimulator(self)
+            # Start in background
+            asyncio.create_task(self.temp_simulator.start_temperature_updates())
+
 # ====================
 # FASTAPI APPLICATION
 # ====================
@@ -240,6 +332,9 @@ app.add_middleware(
 
 # Global device manager
 device_manager = DeviceManager()
+
+# Start temperature simulation
+device_manager.start_temperature_simulation()
 
 # ====================
 # API ENDPOINTS
