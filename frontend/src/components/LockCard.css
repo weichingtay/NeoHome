@@ -1,0 +1,95 @@
+.device-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative; /* Use relative positioning instead */
+}
+
+.device-header span:first-of-type {
+  font-weight: 600;
+  margin-left: 1rem;
+  /* Keep this as is, don't change flex-grow */
+}
+
+.lock-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin: 5px 0 30px 0;
+  min-height: 120px;
+  
+}
+
+.lock-display svg {
+  font-size: 3.5rem;
+  padding: 2.8rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: auto;
+  height: auto;
+  display: block;
+  overflow: visible;
+  /* Ensure the SVG viewBox shows the complete icon */
+  box-sizing: content-box;
+}
+
+.lock-display.locked svg {
+  color: white;
+  background-color: var(--safe-color);
+}
+
+.lock-display.unlocked svg {
+  color: white;
+  background-color: var(--danger-color);
+}
+
+.unlock-btn, .lock-btn {
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.unlock-btn {
+  background-color: var(--safe-color);
+  color: white;
+}
+
+.unlock-btn:hover {
+  background-color: #48c9b0;
+}
+
+.lock-btn {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.lock-btn:hover {
+  background-color: #e65252;
+}
+
+.lock-status {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: absolute; /* Position absolutely to the right */
+  right: 0; /* Stick to the right edge */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically */
+}
+
+.lock-status.locked {
+  color: var(--safe-color);
+  background-color: var(--safe-color-bg);
+}
+
+.lock-status.unlocked {
+  color: var(--danger-color);
+  background-color: var(--danger-color-bg);
+}
