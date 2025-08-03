@@ -5,6 +5,7 @@ from fastapi.websockets import WebSocket, WebSocketDisconnect
 from pydantic import BaseModel, Field, validator
 from typing import Dict, List, Optional, Any, Literal
 from datetime import datetime, timezone
+from urllib.parse import unquote
 import asyncio
 import json
 import logging
@@ -256,18 +257,25 @@ async def get_devices(room: Optional[str] = None):
         return device_manager.get_devices_by_room(room)
     return device_manager.get_all_devices()
 
-@app.get("/api/devices/{device_id}", response_model=Device)
+@app.get("/api/devices/{device_id:path}", response_model=Device)
 async def get_device(device_id: str):
     """Get specific device by ID"""
-    device = device_manager.get_device(device_id)
+    # URL decode the device_id
+    decoded_device_id = unquote(device_id)
+    
+    device = device_manager.get_device(decoded_device_id)
     if not device:
-        raise HTTPException(status_code=404, detail="Device not found")
+        raise HTTPException(status_code=404, detail=f"Device {decoded_device_id} not found")
     return device
 
-@app.patch("/api/devices/{device_id}", response_model=Device)
+@app.patch("/api/devices/{device_id:path}", response_model=Device)
 async def update_device(device_id: str, updates: DeviceUpdate):
     """Update device properties"""
-    return await device_manager.update_device(device_id, updates)
+    # URL decode the device_id
+    decoded_device_id = unquote(device_id)
+    
+    logger.info(f"Updating device: {decoded_device_id} with {updates.dict(exclude_unset=True)}")
+    return await device_manager.update_device(decoded_device_id, updates)
 
 @app.get("/api/stats", response_model=DeviceStats)
 async def get_system_stats():
