@@ -1,4 +1,4 @@
-# backend/main.py - FastAPI Smart Home Backend
+# backend/main.py - Simplified Smart Home Backend
 from fastapi import FastAPI, HTTPException, Depends, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.websockets import WebSocket, WebSocketDisconnect
@@ -9,52 +9,37 @@ import asyncio
 import json
 import logging
 import uvicorn
-from contextlib import asynccontextmanager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ====================
-# PYDANTIC MODELS (IoT Data Models)
+# PYDANTIC MODELS
 # ====================
 
 class DeviceBase(BaseModel):
-    """Base device model following IoT naming conventions"""
+    """Base device model"""
     device_id: str = Field(..., description="Format: location/type/instance")
     name: str
     device_type: Literal["light", "thermostat", "lock"]
     is_on: bool = True
     last_updated: str = "Just now"
-    
-    @validator('device_id')
-    def validate_device_id(cls, v):
-        parts = v.split('/')
-        if len(parts) != 3:
-            raise ValueError('Device ID must follow format: location/type/instance')
-        location, device_type, instance = parts
-        
-        # IoT naming validation: lowercase, alphanumeric, hyphens only
-        for part in parts:
-            if not part.replace('-', '').replace('_', '').isalnum():
-                raise ValueError('Device ID parts must be alphanumeric with hyphens/underscores only')
-        
-        return v.lower().replace('_', '-')  # Normalize to lowercase with hyphens
 
 class LightDevice(DeviceBase):
-    """Smart light device with brightness and color temperature"""
+    """Smart light device"""
     device_type: Literal["light"] = "light"
-    brightness: int = Field(65, ge=0, le=100, description="Brightness percentage")
-    color_temp: str = Field("white", description="Color temperature setting")
+    brightness: int = Field(65, ge=0, le=100)
+    color_temp: str = "white"
 
 class ThermostatDevice(DeviceBase):
-    """Smart thermostat device with temperature controls"""
+    """Smart thermostat device"""
     device_type: Literal["thermostat"] = "thermostat"
-    target_temp: int = Field(22, ge=16, le=30, description="Target temperature in Celsius")
-    current_temp: int = Field(21, ge=-20, le=50, description="Current temperature in Celsius")
+    target_temp: int = Field(22, ge=16, le=30)
+    current_temp: int = Field(21, ge=-20, le=50)
 
 class LockDevice(DeviceBase):
-    """Smart lock device with security status"""
+    """Smart lock device"""
     device_type: Literal["lock"] = "lock"
     is_locked: bool = True
 
@@ -67,44 +52,28 @@ class DeviceUpdate(BaseModel):
     brightness: Optional[int] = Field(None, ge=0, le=100)
     color_temp: Optional[str] = None
     target_temp: Optional[int] = Field(None, ge=16, le=30)
-    current_temp: Optional[int] = Field(None, ge=-20, le=50)
     is_locked: Optional[bool] = None
-
-class TelemetryData(BaseModel):
-    """Telemetry data for real sensor integration"""
-    device_id: str
-    sensor_type: str
-    value: float
-    unit: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class DeviceStats(BaseModel):
     """System statistics"""
     lighting: str
     temperature: str
     security: str
-    total_devices: int
-    online_devices: int
 
 # ====================
-# DEVICE MANAGER (IoT Device Registry)
+# DEVICE MANAGER
 # ====================
 
 class DeviceManager:
-    """
-    Production-ready device manager with IoT naming conventions
-    Simulates real IoT device registry with in-memory storage
-    """
+    """Simple device manager with in-memory storage"""
     
     def __init__(self):
         self.devices: Dict[str, Device] = {}
-        self.telemetry_history: List[TelemetryData] = []
         self.websocket_connections: List[WebSocket] = []
         self._initialize_demo_devices()
-        self._start_simulation()
     
     def _initialize_demo_devices(self):
-        """Initialize devices with proper IoT naming and realistic data"""
+        """Initialize devices with demo data"""
         demo_devices = [
             LockDevice(
                 device_id="living-room/lock/front-door-01",
@@ -175,44 +144,8 @@ class DeviceManager:
         
         logger.info(f"Initialized {len(demo_devices)} demo devices")
     
-    def _start_simulation(self):
-        """Start background simulation for realistic IoT behavior"""
-        pass  # Placeholder for background task initialization
-    
-    async def simulate_real_sensors(self):
-        """Simulate real sensor behavior with periodic updates"""
-        while True:
-            try:
-                # Simulate temperature drift for thermostats
-                for device_id, device in self.devices.items():
-                    if isinstance(device, ThermostatDevice):
-                        # Gradually approach target temperature
-                        temp_diff = device.target_temp - device.current_temp
-                        if abs(temp_diff) > 0:
-                            change = 1 if temp_diff > 0 else -1
-                            device.current_temp += change
-                            device.last_updated = "Just now"
-                            
-                            # Create telemetry data
-                            telemetry = TelemetryData(
-                                device_id=device_id,
-                                sensor_type="temperature",
-                                value=float(device.current_temp),
-                                unit="celsius"
-                            )
-                            self.telemetry_history.append(telemetry)
-                            
-                            # Broadcast to WebSocket connections
-                            await self.broadcast_device_update(device_id, device)
-                
-                await asyncio.sleep(30)  # Update every 30 seconds
-                
-            except Exception as e:
-                logger.error(f"Simulation error: {e}")
-                await asyncio.sleep(5)
-    
     async def broadcast_device_update(self, device_id: str, device: Device):
-        """Broadcast device updates to all connected WebSocket clients"""
+        """Broadcast device updates to WebSocket clients"""
         if self.websocket_connections:
             message = {
                 "type": "device_update",
@@ -232,15 +165,12 @@ class DeviceManager:
             self.websocket_connections = active_connections
     
     def get_all_devices(self) -> List[Device]:
-        """Get all devices"""
         return list(self.devices.values())
     
     def get_device(self, device_id: str) -> Optional[Device]:
-        """Get device by ID"""
         return self.devices.get(device_id)
     
     def get_devices_by_room(self, room: str) -> List[Device]:
-        """Get devices filtered by room"""
         if room == "all":
             return self.get_all_devices()
         
@@ -250,15 +180,8 @@ class DeviceManager:
             if device.device_id.split('/')[0] == room_normalized
         ]
     
-    def get_devices_by_type(self, device_type: str) -> List[Device]:
-        """Get devices filtered by type"""
-        return [
-            device for device in self.devices.values()
-            if device.device_type == device_type
-        ]
-    
     async def update_device(self, device_id: str, updates: DeviceUpdate) -> Device:
-        """Update device with validation and broadcast"""
+        """Update device with validation"""
         device = self.get_device(device_id)
         if not device:
             raise HTTPException(status_code=404, detail="Device not found")
@@ -266,17 +189,6 @@ class DeviceManager:
         # Update only provided fields
         update_data = updates.dict(exclude_unset=True)
         update_data["last_updated"] = "Just now"
-        
-        # Validate device-specific constraints
-        if isinstance(device, LightDevice):
-            if "target_temp" in update_data or "current_temp" in update_data:
-                raise HTTPException(status_code=400, detail="Cannot set temperature on light device")
-        elif isinstance(device, ThermostatDevice):
-            if "brightness" in update_data or "color_temp" in update_data:
-                raise HTTPException(status_code=400, detail="Cannot set brightness on thermostat device")
-        elif isinstance(device, LockDevice):
-            if any(key in update_data for key in ["brightness", "color_temp", "target_temp"]):
-                raise HTTPException(status_code=400, detail="Cannot set these properties on lock device")
         
         # Apply updates
         for key, value in update_data.items():
@@ -286,207 +198,89 @@ class DeviceManager:
         # Broadcast update
         await self.broadcast_device_update(device_id, device)
         
-        logger.info(f"Updated device {device_id}: {update_data}")
         return device
     
     def get_system_stats(self) -> DeviceStats:
         """Calculate system statistics"""
-        lights = self.get_devices_by_type("light")
+        lights = [d for d in self.devices.values() if d.device_type == "light"]
         active_lights = sum(1 for light in lights if light.is_on)
         
-        thermostats = self.get_devices_by_type("thermostat")
+        thermostats = [d for d in self.devices.values() if d.device_type == "thermostat"]
         avg_temp = round(sum(t.current_temp for t in thermostats) / len(thermostats)) if thermostats else 0
         
-        locks = self.get_devices_by_type("lock")
+        locks = [d for d in self.devices.values() if d.device_type == "lock"]
         all_locked = all(lock.is_locked for lock in locks) if locks else True
         
         return DeviceStats(
             lighting=f"{active_lights}/{len(lights)} Active",
             temperature=f"{avg_temp}°C Average",
-            security="All Locked" if all_locked else "Some Unlocked",
-            total_devices=len(self.devices),
-            online_devices=len(self.devices)  # All simulated devices are "online"
+            security="All Locked" if all_locked else "Some Unlocked"
         )
 
 # ====================
 # FASTAPI APPLICATION
 # ====================
 
-# Global device manager
-device_manager = DeviceManager()
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Manage application lifespan with background tasks"""
-    # Startup
-    logger.info("Starting Smart Home IoT Backend")
-    
-    # Start background simulation
-    simulation_task = asyncio.create_task(device_manager.simulate_real_sensors())
-    
-    yield
-    
-    # Shutdown
-    logger.info("Shutting down Smart Home IoT Backend")
-    simulation_task.cancel()
-    try:
-        await simulation_task
-    except asyncio.CancelledError:
-        pass
-
-# Initialize FastAPI with lifespan management
+# Initialize FastAPI
 app = FastAPI(
-    title="Smart Home IoT API",
-    description="Production-ready IoT device management system",
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
-    lifespan=lifespan
+    title="Smart Home Control Panel API",
+    description="Simple smart home device management",
+    version="1.0.0"
 )
 
 # CORS middleware for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],  # Vite dev server
+    allow_origins=["http://localhost:3000", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ====================
-# DEPENDENCY INJECTION
-# ====================
-
-async def get_device_manager() -> DeviceManager:
-    """Dependency to get device manager"""
-    return device_manager
-
-async def validate_device_exists(device_id: str, manager: DeviceManager = Depends(get_device_manager)) -> Device:
-    """Validate that device exists"""
-    device = manager.get_device(device_id)
-    if not device:
-        raise HTTPException(status_code=404, detail=f"Device {device_id} not found")
-    return device
+# Global device manager
+device_manager = DeviceManager()
 
 # ====================
 # API ENDPOINTS
 # ====================
 
-@app.get("/", tags=["System"])
+@app.get("/")
 async def root():
-    """Health check endpoint"""
-    return {
-        "message": "Smart Home IoT API",
-        "status": "operational",
-        "version": "1.0.0",
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    }
+    """Health check"""
+    return {"message": "Smart Home API", "status": "running"}
 
-@app.get("/health", tags=["System"])
-async def health_check():
-    """Kubernetes health check endpoint"""
-    return {
-        "status": "healthy",
-        "devices_count": len(device_manager.devices),
-        "websocket_connections": len(device_manager.websocket_connections)
-    }
-
-@app.get("/api/devices", response_model=List[Device], tags=["Devices"])
-async def get_devices(
-    room: Optional[str] = None,
-    device_type: Optional[str] = None,
-    manager: DeviceManager = Depends(get_device_manager)
-):
-    """Get all devices with optional filtering"""
+@app.get("/api/devices", response_model=List[Device])
+async def get_devices(room: Optional[str] = None):
+    """Get all devices with optional room filtering"""
     if room:
-        devices = manager.get_devices_by_room(room)
-    elif device_type:
-        devices = manager.get_devices_by_type(device_type)
-    else:
-        devices = manager.get_all_devices()
-    
-    return devices
+        return device_manager.get_devices_by_room(room)
+    return device_manager.get_all_devices()
 
-@app.get("/api/devices/{device_id}", response_model=Device, tags=["Devices"])
-async def get_device(device: Device = Depends(validate_device_exists)):
+@app.get("/api/devices/{device_id}", response_model=Device)
+async def get_device(device_id: str):
     """Get specific device by ID"""
-    return device
-
-@app.patch("/api/devices/{device_id}", response_model=Device, tags=["Devices"])
-async def update_device(
-    device_id: str,
-    updates: DeviceUpdate,
-    manager: DeviceManager = Depends(get_device_manager)
-):
-    """Update device properties"""
-    return await manager.update_device(device_id, updates)
-
-@app.get("/api/stats", response_model=DeviceStats, tags=["System"])
-async def get_system_stats(manager: DeviceManager = Depends(get_device_manager)):
-    """Get system statistics"""
-    return manager.get_system_stats()
-
-@app.get("/api/rooms", tags=["System"])
-async def get_rooms():
-    """Get available rooms"""
-    return {
-        "rooms": [
-            {"id": "all", "name": "All Rooms"},
-            {"id": "living-room", "name": "Living Room"},
-            {"id": "kitchen", "name": "Kitchen"},
-            {"id": "bedroom", "name": "Bedroom"},
-            {"id": "bathroom", "name": "Bathroom"}
-        ]
-    }
-
-@app.post("/api/telemetry", tags=["Telemetry"])
-async def ingest_telemetry(
-    telemetry: TelemetryData,
-    manager: DeviceManager = Depends(get_device_manager)
-):
-    """Ingest telemetry data from real sensors"""
-    # Validate device exists
-    device = manager.get_device(telemetry.device_id)
+    device = device_manager.get_device(device_id)
     if not device:
         raise HTTPException(status_code=404, detail="Device not found")
-    
-    # Store telemetry
-    manager.telemetry_history.append(telemetry)
-    
-    # Update device current state if applicable
-    if isinstance(device, ThermostatDevice) and telemetry.sensor_type == "temperature":
-        device.current_temp = int(telemetry.value)
-        device.last_updated = "Just now"
-        await manager.broadcast_device_update(telemetry.device_id, device)
-    
-    logger.info(f"Telemetry ingested: {telemetry.device_id} - {telemetry.sensor_type}: {telemetry.value}")
-    return {"status": "success", "message": "Telemetry data ingested"}
+    return device
 
-@app.get("/api/telemetry/{device_id}", tags=["Telemetry"])
-async def get_device_telemetry(
-    device_id: str,
-    limit: int = 100,
-    manager: DeviceManager = Depends(get_device_manager)
-):
-    """Get telemetry history for a device"""
-    # Validate device exists
-    await validate_device_exists(device_id, manager)
-    
-    # Get telemetry data
-    device_telemetry = [
-        t for t in manager.telemetry_history 
-        if t.device_id == device_id
-    ][-limit:]  # Get last N records
-    
-    return {"device_id": device_id, "telemetry": device_telemetry}
+@app.patch("/api/devices/{device_id}", response_model=Device)
+async def update_device(device_id: str, updates: DeviceUpdate):
+    """Update device properties"""
+    return await device_manager.update_device(device_id, updates)
+
+@app.get("/api/stats", response_model=DeviceStats)
+async def get_system_stats():
+    """Get system statistics"""
+    return device_manager.get_system_stats()
 
 # ====================
-# WEBSOCKET ENDPOINTS
+# WEBSOCKET
 # ====================
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    """WebSocket endpoint for real-time device updates"""
+    """WebSocket for real-time updates"""
     await websocket.accept()
     device_manager.websocket_connections.append(websocket)
     
@@ -498,28 +292,13 @@ async def websocket_endpoint(websocket: WebSocket):
             "devices": [device.dict() for device in devices]
         }))
         
-        # Keep connection alive and handle incoming messages
+        # Keep connection alive
         while True:
-            try:
-                data = await websocket.receive_text()
-                message = json.loads(data)
-                
-                # Handle different message types
-                if message.get("type") == "subscribe":
-                    # Client wants to subscribe to specific devices
-                    await websocket.send_text(json.dumps({
-                        "type": "subscribed",
-                        "message": "Successfully subscribed to device updates"
-                    }))
-                
-            except WebSocketDisconnect:
-                break
-            except Exception as e:
-                logger.error(f"WebSocket error: {e}")
-                break
+            await websocket.receive_text()
     
+    except WebSocketDisconnect:
+        pass
     finally:
-        # Remove connection on disconnect
         if websocket in device_manager.websocket_connections:
             device_manager.websocket_connections.remove(websocket)
 
@@ -532,6 +311,5 @@ if __name__ == "__main__":
         "main:app",
         host="0.0.0.0",
         port=8000,
-        reload=True,
-        log_level="info"
+        reload=True
     )
