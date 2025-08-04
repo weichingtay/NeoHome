@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiHome, FiBell, FiThermometer, FiLock, FiSun, FiUser } from 'react-icons/fi';
+import { FiHome, FiBell, FiThermometer, FiLock, FiUnlock, FiSun, FiUser } from 'react-icons/fi';
 import { DeviceProvider, useDevices } from './contexts/DeviceContext';
 import LightCard from './components/LightCard';
 import ThermostatCard from './components/ThermostatCard';
@@ -60,9 +60,9 @@ const Dashboard = () => {
               <p>{stats.temperature}</p>
             </div>
           </div>
-          <div className="card">
-            <div className="card-icon security">
-              <FiLock />
+           <div className="card">
+            <div className={`card-icon ${stats.security === 'All Locked' ? 'security' : 'security-unlocked'}`}>
+              {stats.security === 'All Locked' ? <FiLock /> : <FiUnlock />}
             </div>
             <div className="card-content">
               <h3>Door Locks</h3>

@@ -25,14 +25,28 @@ body {
 .container {
   max-width: 100%;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 0; /* Remove padding to allow header to span full width */
 }
 
 header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1rem 2rem;
+  margin-bottom: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+}
+
+/* Add padding back to main content and account for fixed header */
+main {
+  margin-top: 80px; /* Account for fixed header height */
+  padding: 2rem;
 }
 
 .logo {
@@ -146,6 +160,10 @@ header {
   gap: 1.5rem;
   margin-bottom: 2rem;
   width: 100%;
+  /* Only add this one line to App.css after line 160: */
+
+.card-icon.security-unlocked { 
+  color: var(--danger-color); background-color: var(--danger-color-bg); }
 }
 
 .card {
@@ -342,7 +360,12 @@ input:checked + label:before {
 
 /* Responsive Design Fixes */
 @media (max-width: 768px) {
-  .container {
+  header {
+    padding: 1rem;
+  }
+  
+  main {
+    margin-top: 70px; /* Reduced for mobile header height */
     padding: 1rem;
   }
   
@@ -380,5 +403,9 @@ input:checked + label:before {
   
   .dashboard-header h2 {
     font-size: 1.5rem;
+  }
+  
+  main {
+    margin-top: 65px; /* Further reduced for smaller mobile screens */
   }
 }
