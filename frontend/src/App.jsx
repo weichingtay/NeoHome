@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { FiHome, FiBell, FiThermometer, FiLock, FiUnlock, FiSun, FiUser } from 'react-icons/fi';
+import { FiHome, FiBell, FiThermometer, FiLock, FiUnlock, FiSun, FiUser, FiLogOut } from 'react-icons/fi';
 import { DeviceProvider, useDevices } from './contexts/DeviceContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LightCard from './components/LightCard';
 import ThermostatCard from './components/ThermostatCard';
 import LockCard from './components/LockCard';
+import LoginForm from './components/LoginForm';
 import './App.css';
 
 // Dashboard component that uses the context
 const Dashboard = () => {
   const [selectedRoom, setSelectedRoom] = useState('all');
   const { getDevicesByRoom, getStats } = useDevices();
+  const { user, logout } = useAuth();
 
   const filteredDevices = getDevicesByRoom(selectedRoom);
   const stats = getStats();
@@ -26,8 +29,19 @@ const Dashboard = () => {
         </div>
         <div className="header-icons">
           <FiBell />
-          <div className="user-profile">
-            <FiUser className="profile-icon" />
+          <div className="user-menu">
+            <div className="user-profile">
+              <FiUser className="profile-icon" />
+            </div>
+            <div className="user-dropdown">
+              <div className="user-info">
+                <span>Welcome, {user?.name}</span>
+              </div>
+              <button onClick={logout} className="logout-btn">
+                <FiLogOut />
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -38,7 +52,6 @@ const Dashboard = () => {
             <h2>Smart Home Dashboard</h2>
             <p>Monitor and control your connected devices</p>
           </div>
-          {/* Removed Add Device button */}
         </section>
 
         <section className="status-cards">
@@ -60,7 +73,7 @@ const Dashboard = () => {
               <p>{stats.temperature}</p>
             </div>
           </div>
-           <div className="card">
+          <div className="card">
             <div className={`card-icon ${stats.security === 'All Locked' ? 'security' : 'security-unlocked'}`}>
               {stats.security === 'All Locked' ? <FiLock /> : <FiUnlock />}
             </div>
@@ -124,12 +137,27 @@ const Dashboard = () => {
   );
 };
 
-// App component with provider
-const App = () => {
+// Protected App Component
+const ProtectedApp = () => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <LoginForm />;
+  }
+
   return (
     <DeviceProvider>
       <Dashboard />
     </DeviceProvider>
+  );
+};
+
+// Main App component with providers
+const App = () => {
+  return (
+    <AuthProvider>
+      <ProtectedApp />
+    </AuthProvider>
   );
 };
 
