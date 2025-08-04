@@ -104,14 +104,14 @@ input:checked + label:before {
 /* Color temperature styles */
 .color-temp-container {
   text-align: center;
-  margin-top: 5px;
+  margin-top: 15px;
   padding: 0 1.5rem;
 }
 
 .color-temp-container p {
   font-size: 1rem;
   color: var(--text-color);
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   margin-top: 0;
@@ -125,22 +125,30 @@ input:checked + label:before {
 }
 
 .color-dot {
-  width: 24px;
-  height: 24px;
+  width: 26px; 
+  height: 26px; 
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid transparent;
+  border: 4px solid transparent;
   transition: border-color 0.3s ease;
 }
 
-.color-dot.warm { background-color: #ffca8a; }
-.color-dot.warm-white { background-color: #fff4e6; }
+.color-dot.warm { background-color: #FF8C42; border: 2px solid transparent;}
+.color-dot.warm-white { 
+  background-color: #FFF2CC; /* More visible warm white */
+  border: 2px solid #eee;; /* Always show border for light colors */
+} 
+
 .color-dot.white { background-color: #ffffff; border: 2px solid #eee; }
-.color-dot.cool-white { background-color: #e6f7ff; }
-.color-dot.cool { background-color: #d1eaff; }
+.color-dot.cool-white { background-color: #CCE7FF; border: 2px solid transparent;}
+.color-dot.cool { background-color: #42A5F5; border: 2px solid transparent; }
 
 .color-dot.selected {
-  border-color: var(--primary-color);
+  border-color: var(--primary-color) !important;
+}
+
+.color-dot:hover {
+  transform: scale(1.1);
 }
 
 /* Lock specific styles */
