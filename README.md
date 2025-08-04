@@ -153,33 +153,33 @@ Password: demo123
 
 Given more time, here are some areas I would explore to enhance this project:
 
-*   **Data Persistence: Integrate a database (e.g., SQLite, PostgreSQL) to store device states permanently, so they don't reset when the backend restarts.
-*   **More Device Types: Add support for other smart devices like security cameras (with mock video feeds), smart plugs, or motion sensors.
-*   **Advanced Authentication: Implement a more robust authentication system (e.g., OAuth, JWT) and user management.
-*   **Notifications: Add a notification system for important events (e.g., "Door unlocked," "Temperature reached target").
-*   **Customization: Allow users to rename devices, create custom rooms, or set schedules.
-*   **Testing: Implement unit and integration tests for both frontend and backend components to ensure reliability.
-*   **Error Handling UI: Provide more explicit user feedback for API errors or backend disconnections.
+*   **Data Persistence:** Integrate a database (e.g., SQLite, PostgreSQL) to store device states permanently, so they don't reset when the backend restarts.
+*   **More Device Types:** Add support for other smart devices like security cameras (with mock video feeds), smart plugs, or motion sensors.
+*   **Advanced Authentication:** Implement a more robust authentication system (e.g., OAuth, JWT) and user management.
+*   **Notifications:** Add a notification system for important events (e.g., "Door unlocked," "Temperature reached target").
+*   **Customization:** Allow users to rename devices, create custom rooms, or set schedules.
+*   **Testing:** Implement unit and integration tests for both frontend and backend components to ensure reliability.
+*   **Error Handling UI:** Provide more explicit user feedback for API errors or backend disconnections.
 
 ## 🚀 Future Extensions
 
 ### Real Sensor Integration
 
-*   **Replace mock data with actual IoT device APIs (Philips Hue, Nest, August locks)
-*   **MQTT broker for real-time sensor data from Arduino/Raspberry Pi devices
-*   **Physical sensor readings instead of simulated temperature updates
+*   Replace mock data with actual IoT device APIs (Philips Hue, Nest, August locks)
+*   MQTT broker for real-time sensor data from Arduino/Raspberry Pi devices
+*   Physical sensor readings instead of simulated temperature updates
 
 ### Mobile Support
 
-*   **Progressive Web App features for mobile-first experience
-*   **React Native app with push notifications for device alerts
-*   **Responsive breakpoints for tablet and phone layouts
+*   Progressive Web App features for mobile-first experience
+*   React Native app with push notifications for device alerts
+*   Responsive breakpoints for tablet and phone layouts
 
 ### Notification System
 
-*   **Real-time alerts when doors unlock or temperature exceeds thresholds
-*   **Email/SMS notifications for security events
-*   **Browser push notifications for device status changes
+*   Real-time alerts when doors unlock or temperature exceeds thresholds
+*   Email/SMS notifications for security events
+*   Browser push notifications for device status changes
 
 ### Simple Architecture Extensions
 
@@ -191,7 +191,7 @@ Future:  Mobile App ←→ API Gateway ←→ Database ←→ Real IoT Devices
 
 Developing this application presented several interesting challenges:
 
-*   **Real-time Synchronization: Ensuring seamless, instant updates across the frontend when device states change (either by user action or backend simulation) required careful implementation of WebSockets and state management.
-*   **Custom UI Controls: Designing and implementing the interactive brightness and thermostat dials involved precise mathematical calculations for angle-to-value conversion and handling drag events smoothly.
-*   **Frontend-Backend State Consistency: Maintaining a single source of truth for device states (the backend) while providing immediate UI feedback on the frontend required a strategy that updates the local state first, then attempts to sync with the backend.
-*   **Simulating Realism: Making the thermostat temperature changes feel natural and dynamic, rather than abrupt, involved creating a simple simulation model that cycles through pre-generated data.
+*   **Real-time Synchronization:** Ensuring seamless, instant updates across the frontend when device states change (either by user action or backend simulation) required careful implementation of WebSockets and state management.
+*   **Custom UI Controls:** Designing and implementing the interactive brightness and thermostat dials involved precise mathematical calculations for angle-to-value conversion and handling drag events smoothly.
+*   **Frontend-Backend State Consistency:** Maintaining a single source of truth for device states (the backend) while providing immediate UI feedback on the frontend required a strategy that updates the local state first, then attempts to sync with the backend.
+*   **Simulating Realism:** Making the thermostat temperature changes feel natural and dynamic, rather than abrupt, involved creating a simple simulation model that cycles through pre-generated data.
