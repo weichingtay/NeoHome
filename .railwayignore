@@ -1,0 +1,6 @@
+frontend/
+netlify.toml
+*.json
+node_modules/
+.vite/
+dist/
