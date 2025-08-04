@@ -121,7 +121,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .dashboard-header h2 {
@@ -132,7 +132,7 @@ main {
 
 .dashboard-header p {
   color: var(--subtle-text-color);
-  margin-top: 0.5rem;
+  margin-top: 0.1rem;
 }
 
 .add-device-btn {
@@ -483,7 +483,7 @@ input:checked + label:before {
 @media (max-width: 480px) {
   main {
     margin-top: 65px;
-    padding-top: 2rem; /* Smaller gap on very small screens */
+    padding-top: 2.7rem; /* Smaller gap on very small screens */
   }
 }
 
@@ -495,3 +495,4 @@ input:checked + label:before {
     margin-bottom: 1rem; /* Consistent with desktop */
   }
 }
+
