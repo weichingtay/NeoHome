@@ -26,7 +26,7 @@ class DeviceBase(BaseModel):
     name: str
     device_type: Literal["light", "thermostat", "lock"]
     is_on: bool = True
-    last_updated: str = "Just now"
+    last_updated: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 class LightDevice(DeviceBase):
     """Smart light device"""
@@ -138,7 +138,7 @@ class SimpleTemperatureSimulator:
             # Add small random variation to make it feel realistic
             variation = random.uniform(-0.1, 0.1)
             device.current_temp = round(new_temp + variation, 1)
-            device.last_updated = "Just now"
+            
             
             logger.info(f"🌡️ {reading.get('name', device_id)}: {old_temp}°C → {device.current_temp}°C")
             
@@ -160,68 +160,79 @@ class DeviceManager:
     
     def _initialize_demo_devices(self):
         """Initialize devices with demo data"""
+        current_time = datetime.now(timezone.utc).isoformat()
         demo_devices = [
             LockDevice(
                 device_id="living-room/lock/front-door-01",
                 name="Front Door Lock",
-                is_locked=True
+                is_locked=True,
+                last_updated=current_time
             ),
             LightDevice(
                 device_id="living-room/light/ceiling-01",
                 name="Living Room Light",
                 brightness=65,
-                color_temp="white"
+                color_temp="white",
+                last_updated=current_time
             ),
             ThermostatDevice(
                 device_id="living-room/thermostat/wall-01",
                 name="Living Room Aircon",
                 target_temp=22,
-                current_temp=21
+                current_temp=21,
+                last_updated=current_time
             ),
             LightDevice(
                 device_id="kitchen/light/ceiling-01",
                 name="Kitchen Ceiling Light",
                 brightness=80,
-                color_temp="warm-white"
+                color_temp="warm-white",
+                last_updated=current_time
             ),
             LightDevice(
                 device_id="kitchen/light/under-cabinet-01",
                 name="Under-Cabinet Lights",
                 is_on=False,
                 brightness=45,
-                color_temp="cool-white"
+                color_temp="cool-white",
+                last_updated=current_time
             ),
             LightDevice(
                 device_id="bedroom/light/ceiling-01",
                 name="Bedroom Main Light",
                 is_on=False,
                 brightness=30,
-                color_temp="warm"
+                color_temp="warm",
+                last_updated=current_time
             ),
             LightDevice(
                 device_id="bedroom/light/bedside-01",
                 name="Bedside Lamp",
                 brightness=25,
-                color_temp="warm"
+                color_temp="warm",
+                last_updated=current_time
             ),
             ThermostatDevice(
                 device_id="bedroom/thermostat/wall-01",
                 name="Bedroom Aircon",
                 target_temp=20,
-                current_temp=19
+                current_temp=19,
+                last_updated=current_time
             ),
             LightDevice(
                 device_id="bathroom/light/vanity-01",
                 name="Bathroom Vanity Light",
                 brightness=90,
-                color_temp="cool"
+                color_temp="cool",
+                last_updated=current_time
             ),
             LightDevice(
                 device_id="bathroom/light/shower-01",
                 name="Shower Light",
                 is_on=False,
                 brightness=70,
-                color_temp="white"
+                color_temp="white",
+                last_updated=current_time
             )
         ]
         
@@ -274,7 +285,7 @@ class DeviceManager:
         
         # Update only provided fields
         update_data = updates.dict(exclude_unset=True)
-        update_data["last_updated"] = "Just now"
+        update_data["last_updated"] = datetime.now(timezone.utc).isoformat()
         
         # Apply updates
         for key, value in update_data.items():

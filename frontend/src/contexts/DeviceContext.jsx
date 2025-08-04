@@ -8,7 +8,7 @@ const createDevice = (location, type, instance, name, typeSpecificProps = {}) =>
   name,
   type,
   isOn: true,
-  lastUpdated: "2 mins ago",
+  lastUpdated: new Date().toISOString(),
   ...typeSpecificProps
 });
 
@@ -99,12 +99,23 @@ export const DeviceProvider = ({ children }) => {
             } else if (data.type === 'device_update') {
               console.log('🔄 Device update from backend:', data.device_id);
               const frontendDevice = convertBackendToFrontend(data.device);
+              
               setDevices(prevDevices =>
-                prevDevices.map(device =>
-                  device.deviceId === data.device_id
-                    ? { ...device, ...frontendDevice }
-                    : device
-                )
+                prevDevices.map(device => {
+                  if (device.deviceId === data.device_id) {
+                    // Only update lastUpdated if the backend timestamp is newer
+                    const backendTime = new Date(frontendDevice.lastUpdated).getTime();
+                    const currentTime = new Date(device.lastUpdated).getTime();
+                    
+                    return {
+                      ...device,
+                      ...frontendDevice,
+                      // Keep the newer timestamp
+                      lastUpdated: backendTime > currentTime ? frontendDevice.lastUpdated : device.lastUpdated
+                    };
+                  }
+                  return device;
+                })
               );
             }
           } catch (error) {
@@ -192,7 +203,7 @@ export const DeviceProvider = ({ children }) => {
     setDevices(prevDevices =>
       prevDevices.map(device =>
         device.deviceId === deviceId
-          ? { ...device, ...updates, lastUpdated: "Just now" }
+          ? { ...device, ...updates, lastUpdated: new Date().toISOString() }
           : device
       )
     );
