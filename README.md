@@ -192,6 +192,6 @@ Future:  Mobile App ←→ API Gateway ←→ Database ←→ Real IoT Devices
 Developing this application presented several interesting challenges:
 
 *   **Real-time Synchronization:** Ensuring seamless, instant updates across the frontend when device states change (either by user action or backend simulation) required careful implementation of WebSockets and state management.
-*   **Custom UI Controls:** Designing and implementing the interactive brightness and thermostat dials involved precise mathematical calculations for angle-to-value conversion and handling drag events smoothly.
+*   **Custom UI Controls:** Making custom interactive elements like the brightness and temperature dials feel natural and smooth to use was harder than it looked. It required careful thought about how user actions translate into precise digital changes on screen.
 *   **Frontend-Backend State Consistency:** Maintaining a single source of truth for device states (the backend) while providing immediate UI feedback on the frontend required a strategy that updates the local state first, then attempts to sync with the backend.
 *   **Simulating Realism:** Making the thermostat temperature changes feel natural and dynamic, rather than abrupt, involved creating a simple simulation model that cycles through pre-generated data.
