@@ -11,8 +11,6 @@
 
 **Live Demo:** https://neo-smart-home.netlify.app/ (Frontend only)
 
-> **Note:** Backend not deployed to avoid committing generated sensor data (~1.4MB). Run locally for full real-time temperature simulation.
-
 ## 🏡 Overview
 
 This project is a web application that simulates a Smart Home Control Panel. It allows users to monitor and control various smart devices within a home environment such as lights, thermostats and door locks. Built as a take-home engineering challenge, it showcases full-stack development skills, focusing on interactive UI controls, managing device states and real-time communication between the frontend and backend.
