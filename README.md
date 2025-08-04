@@ -7,19 +7,19 @@
 
 ## 🏡 Overview
 
-This project is a web application that simulates a Smart Home Control Panel. It allows users to monitor and control various smart devices within a home environment, such as lights, thermostats, and door locks. Built as a take-home engineering challenge, it showcases full-stack development skills, focusing on interactive UI controls, managing device states, and real-time communication between the frontend and backend.
+This project is a web application that simulates a Smart Home Control Panel. It allows users to monitor and control various smart devices within a home environment such as lights, thermostats and door locks. Built as a take-home engineering challenge, it showcases full-stack development skills, focusing on interactive UI controls, managing device states and real-time communication between the frontend and backend.
 
 ## ✨ Features
 
 *   **User Authentication:** Simple login system with a demo account.
 *   **Device Control:**
-    *   **Lights:** Turn on/off, adjust brightness with a custom dial, and change color temperature.
-    *   **Thermostat:** Turn on/off, set target temperature with a custom dial, and view current room temperature.
+    *   **Lights:** Turn on/off, adjust brightness with a custom dial and change color temperature.
+    *   **Thermostat:** Turn on/off, set target temperature with a custom dial and view current room temperature.
     *   **Door Locks:** Lock and unlock doors.
 *   **Real-time Updates:** Device statuses update instantly on the dashboard thanks to WebSocket communication.
 *   **Dynamic Data Simulation:** Thermostat temperatures change periodically, simulating real-world sensor readings.
 *   **Room Filtering:** View devices by specific rooms (Living Room, Kitchen, Bedroom, Bathroom) or all at once.
-*   **Home Statistics:** Quick overview of lighting, temperature, and security status across the home.
+*   **Home Statistics:** Quick overview of lighting, temperature and security status across the home.
 *   **Responsive Design:** Works well on different screen sizes (desktop, tablet, mobile).
 
 ## 🏗️ Architecture
@@ -40,10 +40,10 @@ The application follows a client-server architecture with real-time capabilities
     *   **Device Simulation:** Includes a `DeviceManager` to handle device states and a `SimpleTemperatureSimulator` that periodically updates thermostat temperatures based on pre-generated data, mimicking real sensor behavior.
 
 3.  **Communication:**
-    *   **HTTP (REST API):** Used for sending commands from the frontend to the backend (e.g., when you click a button or drag a dial).
+    *   **HTTP (REST API):** Used for sending commands from the frontend to the backend (e.g. when you click a button or drag a dial).
     *   **WebSockets:** Used for real-time, bidirectional communication. The backend pushes instant updates to the frontend whenever a device state changes (either by user action or simulation).
 
-In essence, the Frontend is the control panel, the Backend is the brain that processes commands and manages device information, and they communicate constantly to keep everything synchronized.
+In essence, the Frontend is the control panel, the Backend is the brain that processes commands and manages device information and they communicate constantly to keep everything synchronized.
 
 ## 🚀 Getting Started
 
@@ -153,11 +153,11 @@ Password: demo123
 
 Given more time, here are some areas I would explore to enhance this project:
 
-*   **Data Persistence:** Integrate a database (e.g., SQLite, PostgreSQL) to store device states permanently, so they don't reset when the backend restarts.
-*   **More Device Types:** Add support for other smart devices like security cameras (with mock video feeds), smart plugs, or motion sensors.
+*   **Data Persistence:** Integrate a database (e.g., SQLite, PostgreSQL) to store device states permanently so they don't reset when the backend restarts.
+*   **More Device Types:** Add support for other smart devices like security cameras (with mock video feeds), smart plugs or motion sensors.
 *   **Advanced Authentication:** Implement a more robust authentication system (e.g., OAuth, JWT) and user management.
-*   **Notifications:** Add a notification system for important events (e.g., "Door unlocked," "Temperature reached target").
-*   **Customization:** Allow users to rename devices, create custom rooms, or set schedules.
+*   **Notifications:** Add a notification system for important events (e.g. "Door unlocked," "Temperature reached target").
+*   **Customization:** Allow users to rename devices, create custom rooms or set schedules.
 *   **Testing:** Implement unit and integration tests for both frontend and backend components to ensure reliability.
 *   **Error Handling UI:** Provide more explicit user feedback for API errors or backend disconnections.
 
