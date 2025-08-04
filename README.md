@@ -62,7 +62,7 @@ Make sure you have the following installed:
 
 ```bash
 git clone https://github.com/weichingtay/NeoHome.git
-cd smart-home-control-panel # Or whatever your project folder is named
+cd NeoHome # Or whatever your project folder is named
 ```
 
 ### 2. Backend Setup
@@ -144,9 +144,11 @@ Username: demo
 Password: demo123
 ```
 
-## 📸 Screenshots / Live Demo
+## 📸 Screenshots / Links
 
 <img width="1894" height="912" alt="image" src="https://github.com/user-attachments/assets/f9c047f0-45cb-44b9-8437-8219bfae07e9" />
+
+Frontend deployed on Netlify: https://neo-smart-home.netlify.app/
 
 ## 💡 Future Improvements
 
