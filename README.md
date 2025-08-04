@@ -107,23 +107,19 @@ Open a new terminal window and navigate to the frontend directory:
 ```bash
 cd ../frontend # If you're still in the backend folder
 # Or if you opened a new terminal:
-# cd smart-home-control-panel/frontend
+# cd neohome/frontend
 ```
 
 a. Install Node.js Dependencies:
 
 ```bash
 npm install
-# or
-yarn install
 ```
 
 b. Run the Frontend Application:
 
 ```bash
-npm start
-# or
-yarn start
+npm run dev
 ```
 
 The React application will open in your web browser, usually at http://localhost:5173.
@@ -140,6 +136,7 @@ http://localhost:5173
 Demo Credentials:
 
 ```bash
+**Demo Credentials:**
 Username: demo
 Password: demo123
 ```
