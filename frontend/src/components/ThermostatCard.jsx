@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FiThermometer } from 'react-icons/fi';
 import { useDevices } from '../contexts/DeviceContext';
-import Thermostat from './Thermostat';
+import Thermostat from './Thermostat'; 
+import './DeviceCard.css';
 
 const ThermostatCard = ({ deviceId }) => {
   const { getDeviceById, toggleDevice } = useDevices();

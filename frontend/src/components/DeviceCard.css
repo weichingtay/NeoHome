@@ -1,0 +1,226 @@
+/* Shared device card styles */
+
+.current-temp-display .current-temp-label {
+  font-size: 1rem; /* Same as color-temp-container p */
+  color: var(--text-color);
+  margin-bottom: 15px; /* Same as color-temp-container p */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400; /* Same as color-temp-container p */
+  margin-top: 0; /* Same as color-temp-container p */
+  display: block !important;
+  width: 100%;
+}
+
+.device-card {
+  background-color: var(--card-background);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.device-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.device-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: var(--primary-color);
+}
+
+.device-header span:first-of-type {
+  font-weight: 600;
+  margin-left: 1rem;
+  flex-grow: 1;
+}
+
+.device-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.device-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--subtle-text-color);
+  font-size: 0.9rem;
+}
+
+/* Toggle switch styles */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: .4s;
+}
+
+.toggle-switch label:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+input:checked + label {
+  background-color: var(--primary-color);
+}
+
+input:checked + label:before {
+  transform: translateX(22px);
+}
+
+/* Color temperature styles */
+.color-temp-container {
+  text-align: center;
+  margin-top: 5px;
+  padding: 0 1.5rem;
+}
+
+.color-temp-container p {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  margin-top: 0;
+}
+
+.color-palette {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0;
+}
+
+.color-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.color-dot.warm { background-color: #ffca8a; }
+.color-dot.warm-white { background-color: #fff4e6; }
+.color-dot.white { background-color: #ffffff; border: 2px solid #eee; }
+.color-dot.cool-white { background-color: #e6f7ff; }
+.color-dot.cool { background-color: #d1eaff; }
+
+.color-dot.selected {
+  border-color: var(--primary-color);
+}
+
+/* Lock specific styles */
+.lock-status {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lock-status.locked {
+  color: var(--safe-color);
+  background-color: var(--safe-color-bg);
+}
+
+.lock-status.unlocked {
+  color: var(--danger-color);
+  background-color: var(--danger-color-bg);
+}
+
+.lock-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin: 5px 0 30px 0;
+  min-height: 120px;
+}
+
+.lock-display svg {
+  font-size: 3.5rem;
+  padding: 2.8rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: auto;
+  height: auto;
+  display: block;
+  overflow: visible;
+  box-sizing: content-box;
+}
+
+.lock-display.locked svg {
+  color: white;
+  background-color: var(--safe-color);
+}
+
+.lock-display.unlocked svg {
+  color: white;
+  background-color: var(--danger-color);
+}
+
+.unlock-btn, .lock-btn {
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.unlock-btn {
+  background-color: var(--safe-color);
+  color: white;
+}
+
+.unlock-btn:hover {
+  background-color: #48c9b0;
+}
+
+.lock-btn {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.lock-btn:hover {
+  background-color: #e65252;
+}

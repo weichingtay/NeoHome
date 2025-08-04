@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiLock, FiUnlock } from 'react-icons/fi';
 import { useDevices } from '../contexts/DeviceContext';
+import './DeviceCard.css';
 
 const LockCard = ({ deviceId }) => {
   const { getDeviceById, toggleLock } = useDevices();

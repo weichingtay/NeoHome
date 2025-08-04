@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiSun } from 'react-icons/fi';
 import { useDevices } from '../contexts/DeviceContext';
 import Brightness from './Brightness';
-import './LightCard.css';
+import './DeviceCard.css';
 
 const LightCard = ({ deviceId }) => {
   const { getDeviceById, toggleDevice, updateColorTemp } = useDevices();
