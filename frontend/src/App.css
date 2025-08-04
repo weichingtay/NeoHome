@@ -69,11 +69,38 @@ header {
   color: var(--subtle-text-color);
 }
 
+.header-icons > svg {
+  /* Ensure bell icon is properly aligned */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .user-profile {
   width: 40px;
   height: 40px;
-  background-color: var(--border-color);
+  background-color: var(--primary-color);
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* Ensure perfect centering */
+  flex-shrink: 0;
+}
+
+.user-profile:hover {
+  background-color: #357abd;
+}
+
+.profile-icon {
+  color: white;
+  font-size: 1.2rem;
+  /* Ensure icon is perfectly centered */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dashboard-header {
@@ -142,7 +169,8 @@ header {
 
 .card-icon.lights { color: #f5a623; background-color: #fef6e8; }
 .card-icon.climate { color: #2196F3; background-color: #eefcf9; }
-.card-icon.security { color: #ff6b6b; background-color: #fff0f0; }
+/* Fixed: Door locks should use same color as lock cards */
+.card-icon.security { color: var(--safe-color); background-color: var(--safe-color-bg); }
 
 .card-content h3 {
   font-size: 1rem;
@@ -160,6 +188,8 @@ header {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
+  /* Fixed: Allow wrapping on smaller screens */
+  flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -188,7 +218,7 @@ header {
 
 .device-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
   width: 100%;
 }
@@ -301,7 +331,6 @@ input:checked + label:before {
   border-color: var(--primary-color);
 }
 
-
 .device-footer {
   margin-top: 1.5rem;
   display: flex;
@@ -309,4 +338,47 @@ input:checked + label:before {
   align-items: center;
   color: var(--subtle-text-color);
   font-size: 0.9rem;
+}
+
+/* Responsive Design Fixes */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .status-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .device-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .room-filters {
+    flex-direction: column;
+  }
+  
+  .filter-btn {
+    flex: none;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-icons {
+    gap: 1rem;
+  }
+  
+  .logo-text h1 {
+    font-size: 1.3rem;
+  }
+  
+  .dashboard-header h2 {
+    font-size: 1.5rem;
+  }
 }

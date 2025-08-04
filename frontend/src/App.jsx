@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiHome, FiBell, FiPlus, FiThermometer, FiLock, FiSun } from 'react-icons/fi';
+import { FiHome, FiBell, FiThermometer, FiLock, FiSun, FiUser } from 'react-icons/fi';
 import { DeviceProvider, useDevices } from './contexts/DeviceContext';
 import LightCard from './components/LightCard';
 import ThermostatCard from './components/ThermostatCard';
@@ -26,7 +26,9 @@ const Dashboard = () => {
         </div>
         <div className="header-icons">
           <FiBell />
-          <div className="user-profile"></div>
+          <div className="user-profile">
+            <FiUser className="profile-icon" />
+          </div>
         </div>
       </header>
 
@@ -36,10 +38,7 @@ const Dashboard = () => {
             <h2>Smart Home Dashboard</h2>
             <p>Monitor and control your connected devices</p>
           </div>
-          <button className="add-device-btn">
-            <FiPlus />
-            Add Device
-          </button>
+          {/* Removed Add Device button */}
         </section>
 
         <section className="status-cards">

@@ -1,4 +1,4 @@
-/* src/components/Thermostat.css - Updated with new gradient */
+/* src/components/Thermostat.css - Updated with fixed handle positioning */
 .thermostat-container {
   position: relative;
   width: 250px;
@@ -39,15 +39,15 @@
   position: absolute;
   top: 100%;
   left: 50%;
-  width: 125px;
+  width: 125px; /* Restored to match brightness dial */
   height: 1px;
   transform-origin: left center;
 }
 
 .thermostat-handle {
   position: absolute;
-  top: -15px;
-  right: -15px;
+  top: -10px; /* Adjusted to center on the 10px thick gradient line */
+  right: -10px; /* Adjusted to center on the line */
   width: 20px;
   height: 20px;
   background: white;

@@ -8,12 +8,20 @@
 
 .brightness-dial {
   position: absolute;
-  top: 0;
+  top: 2px; /* Very slightly pushed downward */
   left: 0;
   width: 100%;
   height: 100%;
   border-radius: 125px 125px 0 0;
-  background: conic-gradient(from 180deg at 50% 100%, #f5a623, #fff4e6);
+  background: conic-gradient(from 180deg at 50% 100%, 
+    #8B4513,     /* Dark brown - very dim */
+    #D2691E,     /* Saddle brown - dim */
+    #FF8C00,     /* Dark orange - medium-low */
+    #FFA500,     /* Orange - medium */
+    #FFD700,     /* Gold - bright */
+    #FFFF80,     /* Light yellow - very bright */
+    #FFFFFF      /* Pure white - maximum */
+  );
   cursor: pointer;
 }
 
@@ -38,8 +46,8 @@
 
 .brightness-handle {
   position: absolute;
-  top: -15px;
-  right: -15px;
+  top: -10px; /* Adjusted to center on the 10px thick gradient line */
+  right: -10px; /* Adjusted to center on the line */
   width: 20px;
   height: 20px;
   background: white;
