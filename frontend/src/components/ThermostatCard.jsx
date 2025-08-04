@@ -11,7 +11,7 @@ const ThermostatCard = ({ deviceId }) => {
     return <div>Device not found</div>;
   }
 
-  const safeName = device.name || 'Smart Thermostat';
+  const safeName = device.name || '${device.deviceId} Aircon';
   const toggleId = `${safeName.replace(/\s+/g, '-')}-toggle`;
 
   return (

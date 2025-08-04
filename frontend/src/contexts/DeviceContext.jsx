@@ -36,12 +36,12 @@ export const DeviceProvider = ({ children }) => {
   const [devices, setDevices] = useState([
     createLock("living-room", "front-door-01", "Front Door Lock"),
     createLight("living-room", "ceiling-01", "Living Room Light"),
-    createThermostat("living-room", "wall-01", "Smart Thermostat"),
+    createThermostat("living-room", "wall-01", "Living Room Aircon"),
     createLight("kitchen", "ceiling-01", "Kitchen Ceiling Light", { brightness: 80, colorTemp: "warm-white" }),
     createLight("kitchen", "under-cabinet-01", "Under-Cabinet Lights", { isOn: false, brightness: 45, colorTemp: "cool-white" }),
     createLight("bedroom", "ceiling-01", "Bedroom Main Light", { isOn: false, brightness: 30, colorTemp: "warm" }),
     createLight("bedroom", "bedside-01", "Bedside Lamp", { brightness: 25, colorTemp: "warm" }),
-    createThermostat("bedroom", "wall-01", "Bedroom Thermostat", { targetTemp: 20, currentTemp: 19 }),
+    createThermostat("bedroom", "wall-01", "Bedroom Aircon", { targetTemp: 20, currentTemp: 19 }),
     createLight("bathroom", "vanity-01", "Bathroom Vanity Light", { brightness: 90, colorTemp: "cool" }),
     createLight("bathroom", "shower-01", "Shower Light", { isOn: false, brightness: 70 })
   ]);

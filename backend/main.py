@@ -174,7 +174,7 @@ class DeviceManager:
             ),
             ThermostatDevice(
                 device_id="living-room/thermostat/wall-01",
-                name="Smart Thermostat",
+                name="Living Room Aircon",
                 target_temp=22,
                 current_temp=21
             ),
@@ -206,7 +206,7 @@ class DeviceManager:
             ),
             ThermostatDevice(
                 device_id="bedroom/thermostat/wall-01",
-                name="Bedroom Thermostat",
+                name="Bedroom Aircon",
                 target_temp=20,
                 current_temp=19
             ),
