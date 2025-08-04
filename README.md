@@ -146,8 +146,7 @@ Password: demo123
 
 ## 📸 Screenshots / Live Demo
 
-<img width="1898" height="905" alt="image" src="https://github.com/user-attachments/assets/b3b97250-94ce-487a-b0bd-35df608961fe" />
-
+<img width="1894" height="912" alt="image" src="https://github.com/user-attachments/assets/f9c047f0-45cb-44b9-8437-8219bfae07e9" />
 
 ## 💡 Future Improvements
 
