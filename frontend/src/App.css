@@ -471,3 +471,18 @@ input:checked + label:before {
   color: var(--danger-color); 
   background-color: var(--danger-color-bg); 
 }
+
+@media (max-width: 768px) {
+  main {
+    margin-top: 70px;
+    padding: 1rem;
+    padding-top: 2rem; /* Add gap on mobile too */
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    margin-top: 65px;
+    padding-top: 2rem; /* Smaller gap on very small screens */
+  }
+}
