@@ -80,7 +80,7 @@ It's recommended to use a virtual environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: .\venv\Scripts\activate
-pip install fastapi uvicorn pydantic websockets
+pip install -r requirements.txt
 ```
 
 b. Generate Sensor Data:
