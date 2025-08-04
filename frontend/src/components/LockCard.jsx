@@ -45,7 +45,7 @@ const LockCard = ({ deviceId }) => {
       const diffInHours = Math.floor(diffInMinutes / 60);
 
       if (diffInSeconds < 60) {
-        return 'just now';
+        return 'Just now';
       } else if (diffInMinutes < 60) {
         return `${diffInMinutes} min ago`;
       } else if (diffInHours < 24) {
