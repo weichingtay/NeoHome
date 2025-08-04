@@ -1,5 +1,6 @@
 [build]
-  builder = "NIXPACKS"
+  builder = "nixpacks"
 
 [deploy]
-  startCommand = "cd backend && npm start"
+  workingDirectory = "backend"
+  startCommand = "python -m uvicorn main:app --host 0.0.0.0 --port $PORT"
