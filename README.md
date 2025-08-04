@@ -5,6 +5,14 @@
 ![Backend: FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi)
 ![Realtime: WebSockets](https://img.shields.io/badge/Realtime-WebSockets-blue)
 
+## 📸 Screenshots / Link
+
+<img width="1894" height="912" alt="image" src="https://github.com/user-attachments/assets/f9c047f0-45cb-44b9-8437-8219bfae07e9" />
+
+**Live Demo:** https://neo-smart-home.netlify.app/ (Frontend only)
+
+> **Note:** Backend not deployed to avoid committing generated sensor data (~1.4MB). Run locally for full real-time temperature simulation.
+
 ## 🏡 Overview
 
 This project is a web application that simulates a Smart Home Control Panel. It allows users to monitor and control various smart devices within a home environment such as lights, thermostats and door locks. Built as a take-home engineering challenge, it showcases full-stack development skills, focusing on interactive UI controls, managing device states and real-time communication between the frontend and backend.
@@ -140,14 +148,6 @@ Demo Credentials:
 Username: demo
 Password: demo123
 ```
-
-## 📸 Screenshots / Links
-
-<img width="1894" height="912" alt="image" src="https://github.com/user-attachments/assets/f9c047f0-45cb-44b9-8437-8219bfae07e9" />
-
-**Live Demo:** https://neo-smart-home.netlify.app/ (Frontend only)
-
-> **Note:** Backend not deployed to avoid committing generated sensor data (~1.4MB). Run locally for full real-time temperature simulation.
 
 ## 💡 Future Improvements
 
