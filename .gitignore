@@ -66,3 +66,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Ignore generated sensor data
+sensor-data.json
