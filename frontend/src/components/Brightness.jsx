@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { useDevices } from '../contexts/DeviceContext';
 import './Brightness.css';
-import { formatDistanceToNow } from 'date-fns';
 
 const Brightness = ({ deviceId }) => {
   const { getDeviceById, updateBrightness } = useDevices();
