@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { REST_BASE_URL, WS_URL } from '../config/backend';
 
 const DeviceContext = createContext();
 
@@ -80,7 +81,7 @@ export const DeviceProvider = ({ children }) => {
 
     const connectWebSocket = () => {
       try {
-        ws = new WebSocket('ws://localhost:8000/ws');
+        ws = new WebSocket(WS_URL);
         
         ws.onopen = () => {
           console.log('🔌 WebSocket connected to backend');
@@ -168,7 +169,7 @@ export const DeviceProvider = ({ children }) => {
       const backendUpdates = convertFrontendToBackend(frontendUpdates);
       console.log('🔵 API Call:', deviceId, 'Updates:', backendUpdates);
       
-      const response = await fetch(`http://localhost:8000/api/devices/${encodeURIComponent(deviceId)}`, {
+      const response = await fetch(`${REST_BASE_URL}/api/devices/${encodeURIComponent(deviceId)}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
